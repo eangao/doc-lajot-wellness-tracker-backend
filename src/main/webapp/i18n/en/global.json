@@ -38,6 +38,10 @@
     "form": {
       "username.label": "Username",
       "username.placeholder": "Your username",
+      "firstName.label": "First Name",
+      "firstName.placeholder": "Your firstName",
+      "lastName.label": "Last Name",
+      "lastName.placeholder": "Your lastName",
       "currentpassword.label": "Current password",
       "currentpassword.placeholder": "Current password",
       "newpassword.label": "New password",
@@ -45,7 +49,17 @@
       "confirmpassword.label": "New password confirmation",
       "confirmpassword.placeholder": "Confirm the new password",
       "email.label": "Email",
-      "email.placeholder": "Your email"
+      "email.placeholder": "Your email",
+      "mobileNumber.label": "Mobile Number",
+      "mobileNumber.placeholder": "Your mobile number",
+      "birthday.label": "Birthday",
+      "birthday.placeholder": "Your birthday",
+      "gender.label": "Gender",
+      "gender.placeholder": "Your gender",
+      "city.label": "City",
+      "city.placeholder": "Your city",
+      "country.label": "Country",
+      "country.placeholder": "Your country"
     },
     "messages": {
       "info": {

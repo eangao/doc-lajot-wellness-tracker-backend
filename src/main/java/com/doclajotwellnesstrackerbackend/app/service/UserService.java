@@ -1,8 +1,11 @@
 package com.doclajotwellnesstrackerbackend.app.service;
 
 import com.doclajotwellnesstrackerbackend.app.config.Constants;
+import com.doclajotwellnesstrackerbackend.app.domain.AppUser;
 import com.doclajotwellnesstrackerbackend.app.domain.Authority;
 import com.doclajotwellnesstrackerbackend.app.domain.User;
+import com.doclajotwellnesstrackerbackend.app.domain.enumeration.Gender;
+import com.doclajotwellnesstrackerbackend.app.repository.AppUserRepository;
 import com.doclajotwellnesstrackerbackend.app.repository.AuthorityRepository;
 import com.doclajotwellnesstrackerbackend.app.repository.UserRepository;
 import com.doclajotwellnesstrackerbackend.app.security.AuthoritiesConstants;
@@ -10,8 +13,12 @@ import com.doclajotwellnesstrackerbackend.app.security.SecurityUtils;
 import com.doclajotwellnesstrackerbackend.app.service.dto.AdminUserDTO;
 import com.doclajotwellnesstrackerbackend.app.service.dto.UserDTO;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,10 +45,18 @@ public class UserService {
 
     private final AuthorityRepository authorityRepository;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, AuthorityRepository authorityRepository) {
+    private final AppUserRepository appUserRepository;
+
+    public UserService(
+        UserRepository userRepository,
+        PasswordEncoder passwordEncoder,
+        AuthorityRepository authorityRepository,
+        AppUserRepository appUserRepository
+    ) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.authorityRepository = authorityRepository;
+        this.appUserRepository = appUserRepository;
     }
 
     public Optional<User> activateRegistration(String key) {
@@ -129,6 +144,52 @@ public class UserService {
         userRepository.delete(existingUser);
         userRepository.flush();
         return true;
+    }
+
+    // "Create and save the appUser entity"
+    public User registerUser(
+        AdminUserDTO userDTO,
+        String password,
+        String mobileNumber,
+        LocalDate birthDay,
+        Gender gender,
+        String city,
+        String country
+    ) {
+        User newUser = new User();
+        Authority authority = authorityRepository.findByName(AuthoritiesConstants.USER);
+        Set<Authority> authorities = new HashSet<>();
+        String encryptedPassword = passwordEncoder.encode(password);
+        newUser.setLogin(userDTO.getLogin());
+        // new user gets initially a generated password
+        newUser.setPassword(encryptedPassword);
+        newUser.setFirstName(userDTO.getFirstName());
+        newUser.setLastName(userDTO.getLastName());
+        newUser.setEmail(userDTO.getEmail());
+        newUser.setImageUrl(userDTO.getImageUrl());
+        newUser.setLangKey(userDTO.getLangKey());
+        // new user is not active
+        newUser.setActivated(false);
+        // new user gets registration key
+        newUser.setActivationKey(RandomUtil.generateActivationKey());
+        authorities.add(authority);
+        newUser.setAuthorities(authorities);
+        userRepository.save(newUser);
+        log.debug("Created Information for User: {}", newUser);
+
+        // Create and save the AppUser entity
+        AppUser newAppUser = new AppUser();
+        newAppUser.setUser(newUser);
+        newAppUser.setMobileNumber(mobileNumber);
+        newAppUser.setBirthday(birthDay);
+        newAppUser.setGender(gender);
+        newAppUser.setCity(city);
+        newAppUser.setCountry(country);
+
+        appUserRepository.save(newAppUser);
+        log.debug("Created Information for appUser: {}", newAppUser);
+
+        return newUser;
     }
 
     public User createUser(AdminUserDTO userDTO) {

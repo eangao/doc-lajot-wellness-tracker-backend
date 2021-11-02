@@ -7,10 +7,12 @@ import com.doclajotwellnesstrackerbackend.app.service.MailService;
 import com.doclajotwellnesstrackerbackend.app.service.UserService;
 import com.doclajotwellnesstrackerbackend.app.service.dto.AdminUserDTO;
 import com.doclajotwellnesstrackerbackend.app.service.dto.PasswordChangeDTO;
-import com.doclajotwellnesstrackerbackend.app.web.rest.errors.*;
+import com.doclajotwellnesstrackerbackend.app.web.rest.errors.EmailAlreadyUsedException;
+import com.doclajotwellnesstrackerbackend.app.web.rest.errors.InvalidPasswordException;
+import com.doclajotwellnesstrackerbackend.app.web.rest.errors.LoginAlreadyUsedException;
 import com.doclajotwellnesstrackerbackend.app.web.rest.vm.KeyAndPasswordVM;
 import com.doclajotwellnesstrackerbackend.app.web.rest.vm.ManagedUserVM;
-import java.util.*;
+import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import org.apache.commons.lang3.StringUtils;
@@ -61,7 +63,26 @@ public class AccountResource {
         if (isPasswordLengthInvalid(managedUserVM.getPassword())) {
             throw new InvalidPasswordException();
         }
-        User user = userService.registerUser(managedUserVM, managedUserVM.getPassword());
+        userRepository
+            .findOneByLogin(managedUserVM.getLogin().toLowerCase())
+            .ifPresent(u -> {
+                throw new LoginAlreadyUsedException();
+            });
+        userRepository
+            .findOneByEmailIgnoreCase(managedUserVM.getEmail())
+            .ifPresent(u -> {
+                throw new EmailAlreadyUsedException();
+            });
+
+        User user = userService.registerUser(
+            managedUserVM,
+            managedUserVM.getPassword(),
+            managedUserVM.getMobileNumber(),
+            managedUserVM.getBirthday(),
+            managedUserVM.getGender(),
+            managedUserVM.getCity(),
+            managedUserVM.getCountry()
+        );
         mailService.sendActivationEmail(user);
     }
 
