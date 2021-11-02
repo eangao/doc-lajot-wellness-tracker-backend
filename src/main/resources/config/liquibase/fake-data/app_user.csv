@@ -1,0 +1,3 @@
+id;mobile_number;birthday;gender;profile_image;profile_image_content_type;city;country;user_id
+1;Officer Route;2021-11-01;MALE;../fake-data/blob/hipster.png;image/png;Binstown;Ukraine;1
+2;black Beauty generat;2021-11-01;FEMALE;../fake-data/blob/hipster.png;image/png;Monroe;Montenegro;2

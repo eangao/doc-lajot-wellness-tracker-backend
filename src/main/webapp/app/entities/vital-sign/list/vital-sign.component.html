@@ -1,0 +1,139 @@
+<div>
+  <h2 id="page-heading" data-cy="VitalSignHeading">
+    <span jhiTranslate="doclajotwellnesstrackerbackendApp.vitalSign.home.title">Vital Signs</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info mr-2" (click)="loadPage()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span jhiTranslate="doclajotwellnesstrackerbackendApp.vitalSign.home.refreshListLabel">Refresh List</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-vital-sign"
+        [routerLink]="['/vital-sign/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span jhiTranslate="doclajotwellnesstrackerbackendApp.vitalSign.home.createLabel"> Create a new Vital Sign </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="vitalSigns?.length === 0">
+    <span jhiTranslate="doclajotwellnesstrackerbackendApp.vitalSign.home.notFound">No vitalSigns found</span>
+  </div>
+
+  <div class="table-responsive" id="entities" *ngIf="vitalSigns && vitalSigns.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="loadPage()">
+          <th scope="col" jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="weightInPounds">
+            <span jhiTranslate="doclajotwellnesstrackerbackendApp.vitalSign.weightInPounds">Weight In Pounds</span>
+            <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="heightInInches">
+            <span jhiTranslate="doclajotwellnesstrackerbackendApp.vitalSign.heightInInches">Height In Inches</span>
+            <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="bmi">
+            <span jhiTranslate="doclajotwellnesstrackerbackendApp.vitalSign.bmi">Bmi</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="glassOfWater">
+            <span jhiTranslate="doclajotwellnesstrackerbackendApp.vitalSign.glassOfWater">Glass Of Water</span>
+            <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="systolic">
+            <span jhiTranslate="doclajotwellnesstrackerbackendApp.vitalSign.systolic">Systolic</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="diastolic">
+            <span jhiTranslate="doclajotwellnesstrackerbackendApp.vitalSign.diastolic">Diastolic</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="currentBloodSugar">
+            <span jhiTranslate="doclajotwellnesstrackerbackendApp.vitalSign.currentBloodSugar">Current Blood Sugar</span>
+            <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="lipidProfile">
+            <span jhiTranslate="doclajotwellnesstrackerbackendApp.vitalSign.lipidProfile">Lipid Profile</span>
+            <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="appUser.id">
+            <span jhiTranslate="doclajotwellnesstrackerbackendApp.vitalSign.appUser">App User</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let vitalSign of vitalSigns; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/vital-sign', vitalSign.id, 'view']">{{ vitalSign.id }}</a>
+          </td>
+          <td>{{ vitalSign.weightInPounds }}</td>
+          <td>{{ vitalSign.heightInInches }}</td>
+          <td>{{ vitalSign.bmi }}</td>
+          <td>{{ vitalSign.glassOfWater }}</td>
+          <td>{{ vitalSign.systolic }}</td>
+          <td>{{ vitalSign.diastolic }}</td>
+          <td>{{ vitalSign.currentBloodSugar }}</td>
+          <td>{{ vitalSign.lipidProfile }}</td>
+          <td>
+            <div *ngIf="vitalSign.appUser">
+              <a [routerLink]="['/app-user', vitalSign.appUser?.id, 'view']">{{ vitalSign.appUser?.id }}</a>
+            </div>
+          </td>
+          <td class="text-right">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/vital-sign', vitalSign.id, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/vital-sign', vitalSign.id, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+              </button>
+
+              <button type="submit" (click)="delete(vitalSign)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="vitalSigns && vitalSigns.length > 0">
+    <div class="row justify-content-center">
+      <jhi-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></jhi-item-count>
+    </div>
+
+    <div class="row justify-content-center">
+      <ngb-pagination
+        [collectionSize]="totalItems"
+        [(page)]="ngbPaginationPage"
+        [pageSize]="itemsPerPage"
+        [maxSize]="5"
+        [rotate]="true"
+        [boundaryLinks]="true"
+        (pageChange)="loadPage($event)"
+      ></ngb-pagination>
+    </div>
+  </div>
+</div>

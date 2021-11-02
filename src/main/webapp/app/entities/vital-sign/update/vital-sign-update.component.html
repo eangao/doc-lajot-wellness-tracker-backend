@@ -1,0 +1,193 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2
+        id="jhi-vital-sign-heading"
+        data-cy="VitalSignCreateUpdateHeading"
+        jhiTranslate="doclajotwellnesstrackerbackendApp.vitalSign.home.createOrEditLabel"
+      >
+        Create or edit a Vital Sign
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="form-group" [hidden]="editForm.get('id')!.value == null">
+          <label class="form-control-label" jhiTranslate="global.field.id" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="form-group">
+          <label
+            class="form-control-label"
+            jhiTranslate="doclajotwellnesstrackerbackendApp.vitalSign.weightInPounds"
+            for="field_weightInPounds"
+            >Weight In Pounds</label
+          >
+          <input
+            type="number"
+            class="form-control"
+            name="weightInPounds"
+            id="field_weightInPounds"
+            data-cy="weightInPounds"
+            formControlName="weightInPounds"
+          />
+        </div>
+
+        <div class="form-group">
+          <label
+            class="form-control-label"
+            jhiTranslate="doclajotwellnesstrackerbackendApp.vitalSign.heightInInches"
+            for="field_heightInInches"
+            >Height In Inches</label
+          >
+          <input
+            type="number"
+            class="form-control"
+            name="heightInInches"
+            id="field_heightInInches"
+            data-cy="heightInInches"
+            formControlName="heightInInches"
+          />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="doclajotwellnesstrackerbackendApp.vitalSign.bmi" for="field_bmi">Bmi</label>
+          <input type="number" class="form-control" name="bmi" id="field_bmi" data-cy="bmi" formControlName="bmi" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="doclajotwellnesstrackerbackendApp.vitalSign.glassOfWater" for="field_glassOfWater"
+            >Glass Of Water</label
+          >
+          <input
+            type="number"
+            class="form-control"
+            name="glassOfWater"
+            id="field_glassOfWater"
+            data-cy="glassOfWater"
+            formControlName="glassOfWater"
+          />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="doclajotwellnesstrackerbackendApp.vitalSign.systolic" for="field_systolic"
+            >Systolic</label
+          >
+          <input type="number" class="form-control" name="systolic" id="field_systolic" data-cy="systolic" formControlName="systolic" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="doclajotwellnesstrackerbackendApp.vitalSign.diastolic" for="field_diastolic"
+            >Diastolic</label
+          >
+          <input type="number" class="form-control" name="diastolic" id="field_diastolic" data-cy="diastolic" formControlName="diastolic" />
+        </div>
+
+        <div class="form-group">
+          <label
+            class="form-control-label"
+            jhiTranslate="doclajotwellnesstrackerbackendApp.vitalSign.currentBloodSugar"
+            for="field_currentBloodSugar"
+            >Current Blood Sugar</label
+          >
+          <input
+            type="number"
+            class="form-control"
+            name="currentBloodSugar"
+            id="field_currentBloodSugar"
+            data-cy="currentBloodSugar"
+            formControlName="currentBloodSugar"
+          />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="doclajotwellnesstrackerbackendApp.vitalSign.lipidProfile" for="field_lipidProfile"
+            >Lipid Profile</label
+          >
+          <input
+            type="number"
+            class="form-control"
+            name="lipidProfile"
+            id="field_lipidProfile"
+            data-cy="lipidProfile"
+            formControlName="lipidProfile"
+          />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="doclajotwellnesstrackerbackendApp.vitalSign.appUser" for="field_appUser"
+            >App User</label
+          >
+          <select class="form-control" id="field_appUser" data-cy="appUser" name="appUser" formControlName="appUser">
+            <option *ngIf="editForm.get(['appUser'])!.value == null" [ngValue]="null" selected></option>
+            <option
+              [ngValue]="appUserOption.id === editForm.get('appUser')!.value?.id ? editForm.get('appUser')!.value : appUserOption"
+              *ngFor="let appUserOption of appUsersCollection; trackBy: trackAppUserById"
+            >
+              {{ appUserOption.id }}
+            </option>
+          </select>
+        </div>
+        <div *ngIf="editForm.get(['appUser'])!.invalid && (editForm.get(['appUser'])!.dirty || editForm.get(['appUser'])!.touched)">
+          <small
+            class="form-text text-danger"
+            *ngIf="editForm.get(['appUser'])?.errors?.required"
+            jhiTranslate="entity.validation.required"
+          >
+            This field is required.
+          </small>
+        </div>
+
+        <div class="form-group">
+          <label jhiTranslate="doclajotwellnesstrackerbackendApp.vitalSign.healthConcern" for="field_healthConcerns">Health Concern</label>
+          <select
+            class="form-control"
+            id="field_healthConcerns"
+            data-cy="healthConcern"
+            multiple
+            name="healthConcerns"
+            formControlName="healthConcerns"
+          >
+            <option
+              [ngValue]="getSelectedHealthConcern(healthConcernOption, editForm.get('healthConcerns')!.value)"
+              *ngFor="let healthConcernOption of healthConcernsSharedCollection; trackBy: trackHealthConcernById"
+            >
+              {{ healthConcernOption.name }}
+            </option>
+          </select>
+        </div>
+        <div
+          *ngIf="
+            editForm.get(['healthConcerns'])!.invalid &&
+            (editForm.get(['healthConcerns'])!.dirty || editForm.get(['healthConcerns'])!.touched)
+          "
+        >
+          <small
+            class="form-text text-danger"
+            *ngIf="editForm.get(['healthConcerns'])?.errors?.required"
+            jhiTranslate="entity.validation.required"
+          >
+            This field is required.
+          </small>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

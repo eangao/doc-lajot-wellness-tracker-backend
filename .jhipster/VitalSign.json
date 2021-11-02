@@ -1,0 +1,67 @@
+{
+  "name": "VitalSign",
+  "fields": [
+    {
+      "fieldName": "weightInPounds",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "heightInInches",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "bmi",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "glassOfWater",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "systolic",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "diastolic",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "currentBloodSugar",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "lipidProfile",
+      "fieldType": "Double"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "one-to-one",
+      "otherEntityName": "appUser",
+      "otherEntityRelationshipName": "vitalSign",
+      "relationshipValidateRules": "required",
+      "relationshipName": "appUser",
+      "otherEntityField": "id",
+      "ownerSide": true
+    },
+    {
+      "relationshipType": "many-to-many",
+      "otherEntityName": "healthConcern",
+      "otherEntityRelationshipName": "vitalSign",
+      "relationshipValidateRules": "required",
+      "relationshipName": "healthConcern",
+      "otherEntityField": "name",
+      "ownerSide": true
+    }
+  ],
+  "entityTableName": "vital_sign",
+  "dto": "mapstruct",
+  "pagination": "pagination",
+  "service": "serviceImpl",
+  "jpaMetamodelFiltering": true,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": "*",
+  "changelogDate": "20211102065806"
+}

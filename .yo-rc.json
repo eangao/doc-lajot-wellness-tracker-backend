@@ -44,7 +44,9 @@
     "clientTheme": "none",
     "clientThemeVariant": "",
     "reactive": false,
-    "enableGradleEnterprise": false
+    "enableGradleEnterprise": false,
+    "entities": ["AppUser", "HealthConcern", "VitalSign"],
+    "lastLiquibaseTimestamp": 1635836286000
   },
   "git-provider": "GitHub",
   "git-company": "eangao",

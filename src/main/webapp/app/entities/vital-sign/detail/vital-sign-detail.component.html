@@ -1,0 +1,75 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <div *ngIf="vitalSign">
+      <h2 data-cy="vitalSignDetailsHeading">
+        <span jhiTranslate="doclajotwellnesstrackerbackendApp.vitalSign.detail.title">Vital Sign</span>
+      </h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ vitalSign.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="doclajotwellnesstrackerbackendApp.vitalSign.weightInPounds">Weight In Pounds</span></dt>
+        <dd>
+          <span>{{ vitalSign.weightInPounds }}</span>
+        </dd>
+        <dt><span jhiTranslate="doclajotwellnesstrackerbackendApp.vitalSign.heightInInches">Height In Inches</span></dt>
+        <dd>
+          <span>{{ vitalSign.heightInInches }}</span>
+        </dd>
+        <dt><span jhiTranslate="doclajotwellnesstrackerbackendApp.vitalSign.bmi">Bmi</span></dt>
+        <dd>
+          <span>{{ vitalSign.bmi }}</span>
+        </dd>
+        <dt><span jhiTranslate="doclajotwellnesstrackerbackendApp.vitalSign.glassOfWater">Glass Of Water</span></dt>
+        <dd>
+          <span>{{ vitalSign.glassOfWater }}</span>
+        </dd>
+        <dt><span jhiTranslate="doclajotwellnesstrackerbackendApp.vitalSign.systolic">Systolic</span></dt>
+        <dd>
+          <span>{{ vitalSign.systolic }}</span>
+        </dd>
+        <dt><span jhiTranslate="doclajotwellnesstrackerbackendApp.vitalSign.diastolic">Diastolic</span></dt>
+        <dd>
+          <span>{{ vitalSign.diastolic }}</span>
+        </dd>
+        <dt><span jhiTranslate="doclajotwellnesstrackerbackendApp.vitalSign.currentBloodSugar">Current Blood Sugar</span></dt>
+        <dd>
+          <span>{{ vitalSign.currentBloodSugar }}</span>
+        </dd>
+        <dt><span jhiTranslate="doclajotwellnesstrackerbackendApp.vitalSign.lipidProfile">Lipid Profile</span></dt>
+        <dd>
+          <span>{{ vitalSign.lipidProfile }}</span>
+        </dd>
+        <dt><span jhiTranslate="doclajotwellnesstrackerbackendApp.vitalSign.appUser">App User</span></dt>
+        <dd>
+          <div *ngIf="vitalSign.appUser">
+            <a [routerLink]="['/app-user', vitalSign.appUser?.id, 'view']">{{ vitalSign.appUser?.id }}</a>
+          </div>
+        </dd>
+        <dt><span jhiTranslate="doclajotwellnesstrackerbackendApp.vitalSign.healthConcern">Health Concern</span></dt>
+        <dd>
+          <span *ngFor="let healthConcern of vitalSign.healthConcerns; let last = last">
+            <a [routerLink]="['/health-concern', healthConcern?.id, 'view']">{{ healthConcern.name }}</a
+            >{{ last ? '' : ', ' }}
+          </span>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/vital-sign', vitalSign.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

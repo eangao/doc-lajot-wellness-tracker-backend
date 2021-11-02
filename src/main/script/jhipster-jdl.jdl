@@ -1,0 +1,146 @@
+// ENTITIES:
+entity AppUser {
+	mobileNumber String  maxlength(20)
+    birthday LocalDate required
+    gender Gender required
+    profileImage ImageBlob
+    city String
+    country String
+}
+
+
+enum Gender{
+	MALE, FEMALE
+}
+
+entity HealthConcern {
+	name String required
+}
+
+//https://www.heart.org/en/health-topics/high-blood-pressure/understanding-blood-pressure-readings
+//BLOOD PRESSURE CATEGORY	SYSTOLIC mm Hg (upper number)	and/or	DIASTOLIC mm Hg (lower number)
+//NORMAL	LESS THAN 120	and	LESS THAN 80
+//ELEVATED	120 – 129	and	LESS THAN 80
+//HIGH BLOOD PRESSURE (HYPERTENSION) STAGE 1	130 – 139	or	80 – 89
+//HIGH BLOOD PRESSURE (HYPERTENSION) STAGE 2	140 OR HIGHER	or	90 OR HIGHER
+//HYPERTENSIVE CRISIS (consult your doctor immediately)
+entity VitalSign {
+    //bmi
+	weightInPounds Integer  //in lb
+    heightInInches Integer //in inches
+    bmi Double
+
+    glassOfWater Integer
+
+    //blood pressure
+    systolic Integer
+    diastolic Integer
+
+    currentBloodSugar Double
+    lipidProfile Double
+}
+
+
+// RELATIONSHIPS:
+relationship OneToOne{
+	AppUser{user(id) required} to User
+    VitalSign{appUser(id) required} to AppUser
+}
+
+relationship ManyToMany {
+	 VitalSign{healthConcern(name) required}  to HealthConcern{vitalSign}
+}
+
+
+// SET PAGINATION OPTIONS
+paginate all with pagination
+// paginate ChatMessage with infinite-scroll
+// paginate all with infinite-scroll
+
+// SET SERVICE OPTIONS:
+service all with serviceImpl
+//service all with serviceClass
+
+// DTO:
+dto all with mapstruct
+
+// FILTERING:
+filter *
+
+
+
+//===================================================================
+// 1. initial instructions
+//mar send nako diri ang sample sa DOC LAJOT WELLNESS APPS.
+
+//DOC LAJOT WELLNESS TRACKER APPS
+//PROJECT TO DO
+
+
+//DOC LAJOT WELLNESS TRACKER
+//Opt in 1 minute video
+
+//SIGN IN/REGISTRATION
+//LOG IN
+//PASSWORD RECOVERY
+
+
+//VITAL SIGN RECORD
+//BMI
+//HEALTH ACCOUNT
+//HEALTH REPORT
+//CONSULTATION
+
+//HOME
+//RECORDED LECTURE:
+//YOUTUBE CHANNEL: Link to
+//FB PAGE: Link to
+//MY SUBSCRIPTION: free trial for 21 days and Renewable
+//NOTIFICATION:
+//UPDATE:
+//MY PROFILE:  NAME, ADDRESS, EMAIL ADD, PASSWORD AND CONTACT NUMBER
+//LOG OUT
+
+
+//-VITAL SIGN PROFILE
+//NAME:
+//AGE:
+//Sex:
+//GET THE BMI: FORMULA 	https://www.cdc.gov/nccdphp/dnpao/growthcharts/training/bmiage/page5_2.html
+//Calculating BMI Using the English System
+//Formula: weight (lb) / [height (in)]2 x 703
+//Calculation: [weight (lb) / height (in) / height (in)] x 703
+//1.	HEIGHT (in): (filling in can be the formula: the result can be seen in the health report)
+//2.	WEIGHT (lb): (filling in can be the formula: the result can be seen in the health report)
+//GLASSES OF WATER:
+//BLOOD PRESSURE NOW: (indicate normal as formula) (then upon filling in, when it’s above normal, color coding appear (green for normal, yellow for 25% above, red for 50% above normal) (the coding can be seen in the health report)
+
+//BLOOD SUGAR NOW: (indicate normal as formula) (then upon filling in, when it’s above normal, color coding appear (green for normal, yellow for 25% above, red for 50% above normal) (the coding can be seen in the health report)
+//LIPID PROFILE: (indicate normal as formula) (then upon filling in, when it’s above normal, color coding appear (green for normal, yellow for 25% above, red for 50% above normal)
+
+//HEALTH ACCOUNT
+//List of Current Concern (Choose 4 concerns to 10)
+//KEYWORDS: PAIN, SUGAR, BLOOD, PRESSURE, STRESS, WEIGHT, APPETITE, OBESITY, INFECTION, INFLAMMATION, TOXINS, FATS, ACID, BOWEL, JOINTS, SKIN, VISION, HEAD ACHE, SLEEP, WEAK, HORMONAL AND BEATING.
+
+
+//HEALTH REPORT
+//1.	Coding for blood sugar level
+//2.	Coding for blood pressure
+//3.	Lipid profile level
+//4.	BMI result (the result can be seen here in this health report)
+
+//NEED A NUTRITIONAL AND LIFESTYLE PROGRAM?
+//CALL: 09153425208
+//EMAIL: ibringhealth@gmail.com
+
+//===================================================================================
+
+//2.   modifying user extra
+//https://stackoverflow.com/questions/49343572/jhipster-registering-a-user-with-additional-information
+
+
+
+
+
+
+

@@ -1,0 +1,25 @@
+{
+  "doclajotwellnesstrackerbackendApp": {
+    "healthConcern": {
+      "home": {
+        "title": "Health Concerns",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Health Concern",
+        "createOrEditLabel": "Create or edit a Health Concern",
+        "notFound": "No Health Concerns found"
+      },
+      "created": "A new Health Concern is created with identifier {{ param }}",
+      "updated": "A Health Concern is updated with identifier {{ param }}",
+      "deleted": "A Health Concern is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Health Concern {{ id }}?"
+      },
+      "detail": {
+        "title": "Health Concern"
+      },
+      "id": "ID",
+      "name": "Name",
+      "vitalSign": "Vital Sign"
+    }
+  }
+}

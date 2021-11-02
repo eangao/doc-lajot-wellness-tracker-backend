@@ -1,0 +1,29 @@
+{
+  "name": "HealthConcern",
+  "fields": [
+    {
+      "fieldName": "name",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "many-to-many",
+      "otherEntityName": "vitalSign",
+      "otherEntityRelationshipName": "healthConcern",
+      "relationshipName": "vitalSign",
+      "ownerSide": false
+    }
+  ],
+  "entityTableName": "health_concern",
+  "dto": "mapstruct",
+  "pagination": "pagination",
+  "service": "serviceImpl",
+  "jpaMetamodelFiltering": true,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": "*",
+  "changelogDate": "20211102065805"
+}

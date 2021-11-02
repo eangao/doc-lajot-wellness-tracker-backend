@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.5.xsd">
+    <!--
+        Added the constraints for entity VitalSign.
+    -->
+    <changeSet id="20211102065806-2" author="jhipster">
+
+        <addForeignKeyConstraint baseColumnNames="app_user_id"
+                                 baseTableName="vital_sign"
+                                 constraintName="fk_vital_sign__app_user_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="app_user"/>
+
+        <addForeignKeyConstraint baseColumnNames="vital_sign_id"
+                                 baseTableName="rel_vital_sign__health_concern"
+                                 constraintName="fk_rel_vital_sign__health_concern__vital_sign_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="vital_sign"/>
+
+        <addForeignKeyConstraint baseColumnNames="health_concern_id"
+                                 baseTableName="rel_vital_sign__health_concern"
+                                 constraintName="fk_rel_vital_sign__health_concern__health_concern_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="health_concern"/>
+    </changeSet>
+</databaseChangeLog>
